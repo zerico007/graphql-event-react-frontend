@@ -31,7 +31,6 @@ function App() {
       }
         `)
       .then((result) => {
-        console.log(result.data.data.login);
         getUser(result.data.data.login);
         setBearerToken(result.data.data.login);
         setPage("events");
