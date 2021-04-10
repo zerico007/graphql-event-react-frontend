@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Login from "./Login";
 import EventsContainer from "./EventsContainer";
 import { usePersistedState } from "./utils";
+import { setBearerToken, reachApi } from "./network";
 
 const WrapperDiv = styled.div`
   display: flex;
@@ -17,15 +17,6 @@ function App() {
   const [page, setPage] = usePersistedState("page", "login");
   const [events, setEvents] = useState([]);
 
-  const touchApi = (query) =>
-    axios({
-      url: "http://localhost:4040/eventapi",
-      method: "post",
-      data: {
-        query,
-      },
-    });
-
   const getUser = (token) => {
     const user = jwt_decode(token);
     const { email, password, userId } = user;
@@ -34,7 +25,7 @@ function App() {
 
   const handleLogin = (e, email, password) => {
     e.preventDefault();
-    touchApi(`
+    reachApi(`
       {
         login(userInput: {email: "${email}", password: "${password}"})
       }
@@ -42,13 +33,14 @@ function App() {
       .then((result) => {
         console.log(result.data.data.login);
         getUser(result.data.data.login);
+        setBearerToken(result.data.data.login);
         setPage("events");
       })
       .catch((err) => console.log(err.message));
   };
 
   const fetchEvents = () => {
-    touchApi(`
+    reachApi(`
     {
       events {
         _id
@@ -70,7 +62,7 @@ function App() {
   };
 
   const bookEvent = (eventId, userId) => {
-    touchApi(`
+    reachApi(`
     mutation {
       bookEvent(eventId: "${eventId}", userId: "${userId}") {
         event{
@@ -90,7 +82,7 @@ function App() {
   };
 
   const cancelBooking = (bookingId) => {
-    touchApi(
+    reachApi(
       `
       mutation {
         cancelBooking(bookingId: "${bookingId}") {
