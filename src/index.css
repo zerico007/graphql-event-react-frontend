@@ -13,11 +13,11 @@ code {
     monospace;
 }
 
-@keyframes enterTop {
+@keyframes enterLeft {
   0% {
-    transform: translateY(-2000px);
+    transform: translateX(-2000px);
   }
   100% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }

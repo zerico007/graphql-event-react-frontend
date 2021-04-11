@@ -12,6 +12,24 @@ const WrapperDiv = styled.div`
   align-items: center;
 `;
 
+const LogoutBtn = styled.button`
+  position: absolute;
+  top: 40px;
+  right: 100px;
+  background: #407294;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  font-weight: 800;
+  color: white;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
 function App() {
   const [user, setUser] = usePersistedState("user", {});
   const [page, setPage] = usePersistedState("page", "login");
@@ -94,6 +112,17 @@ function App() {
 
   return (
     <WrapperDiv>
+      {page !== "login" && (
+        <LogoutBtn
+          onClick={() => {
+            setPage("login");
+            setUser({});
+            setEvents([]);
+          }}
+        >
+          Logout
+        </LogoutBtn>
+      )}
       {page === "login" && <Login handleLogin={handleLogin} />}
       {page === "events" && (
         <EventsContainer

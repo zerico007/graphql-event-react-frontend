@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 const EventDiv = styled.div`
-  width: 40vw;
-  height: 40vh;
+  width: 300px;
+  height: 350px;
   margin: 40px auto;
   display: grid;
   grid-template-areas:
@@ -13,14 +13,14 @@ const EventDiv = styled.div`
     "created created"
     "button button";
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: repeat(5, 1fr);
   box-sizing: border-box;
   padding: 20px;
-  border: 2px solid black;
   border-radius: 0.5rem;
-  box-shadow: 0.1rem 0.1rem 0.1rem 0.05rem grey;
-  background: #eceff9;
-  animation: enterTop 2s;
+  box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem grey;
+  background: white;
+  animation: enterLeft 2s;
+  font-size: 14px;
 `;
 
 const BookEventsBtn = styled.button`
@@ -30,6 +30,7 @@ const BookEventsBtn = styled.button`
   box-sizing: border-box;
   outline: none;
   cursor: pointer;
+  border: none;
   background: #4568cb;
   color: white;
   margin: 10px auto;
@@ -64,10 +65,11 @@ const Event = ({
         <strong>{description}</strong>
       </p>
       <p style={{ gridArea: "date" }}>
-        Date: <strong>{date}</strong>
+        Date: <br /> <strong>{date}</strong>
       </p>
       <p style={{ gridArea: "price" }}>
-        Price:{" "}
+        Price:
+        <br />
         <strong>
           {new Intl.NumberFormat("en-US", {
             style: "currency",
@@ -76,7 +78,7 @@ const Event = ({
         </strong>
       </p>
       <p style={{ gridArea: "created" }}>
-        Created by: <strong>{createdBy}</strong>
+        Created by: <br /> <strong>{createdBy}</strong>
       </p>
       <BookEventsBtn
         onClick={() => {
